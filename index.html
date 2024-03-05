@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Latihan jQuery</title>
+
+    <!-- import jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <style type="text/css">
+      div.question-box {
+        margin: 10px 0 20px 0;
+      }
+      .over {
+        color: red;
+      }
+    </style>
+
+    <script>
+      function q1() {
+        $("#index-q1").empty();
+        $.ajax({
+          type: "GET",
+          url: "http://spartacodingclub.shop/en/global_air/seoul",
+          data: {},
+          success: function (response) {
+            let cuaca = response["data"]["forecast"];
+            for (i = 0; i < cuaca.length; i++) {
+              let day = cuaca[i]["day"];
+              let avg = cuaca[i]["avg"];
+              let temp_html = "";
+              if (avg > 70) {
+                temp_html = `<li class="over">${day} : ${avg}</li>`;
+              } else {
+                temp_html = `<li>${day} : ${avg}</li>`;
+              }
+
+              $("#index-q1").append(temp_html);
+            }
+          },
+        });
+      }
+    </script>
+  </head>
+
+  <body>
+    <h1>Practicing the combination of jQuery+Ajax</h1>
+
+    <hr />
+
+    <div class="question-box">
+      <h2>1. Using Seoul's OpenAPI (real-time air pollution rate)</h2>
+      <p>Please indicate the air pollution rate in all districts</p>
+      <p>Each time you click the update button, it should be erased and rewritten.</p>
+      <button onclick="q1()">update</button>
+      <ul id="index-q1"></ul>
+    </div>
+  </body>
+</html>
